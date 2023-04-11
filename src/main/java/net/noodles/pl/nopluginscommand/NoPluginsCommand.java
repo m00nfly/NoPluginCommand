@@ -57,17 +57,13 @@ public final class NoPluginsCommand extends JavaPlugin implements Listener {
                     sender.sendMessage(Color.translate("&aNewest Version: &e" + version));
                     sender.sendMessage(Color.translate(""));
                     sender.sendMessage(Color.translate(""));
-                    return;
                 }
-                return;
             } else {
                 sender.sendMessage(Color.translate("&cWrong response from update API, contact plugin developer!"));
-                return;
             }
         } catch (
                 Exception ex) {
             sender.sendMessage(Color.translate("&cFailed to get updater check. (" + ex.getMessage() + ")"));
-            return;
         }
     }
 
@@ -76,7 +72,7 @@ public final class NoPluginsCommand extends JavaPlugin implements Listener {
         List<String> commands = Arrays.asList("?", "pl", "about", "version", "ver", "plugins", "bukkit:?", "bukkit:pl", "bukkit:about", "bukkit:version", "bukkit:ver", "bukkit:plugins", "minecraft:pl", "minecraft:plugins", "minecraft:about", "minecraft:version", "minecraft:ver");
         commands.forEach(all -> {
          String[] arrCommand = event.getMessage().toLowerCase().split(" ", 2);
-         if (arrCommand[0].equalsIgnoreCase("/" + all.toLowerCase())) {
+         if (arrCommand[0].equalsIgnoreCase("/" + all.toLowerCase()) && !event.getPlayer().isOp()) {
              event.setCancelled(true);
          }
         });
