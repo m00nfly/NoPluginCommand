@@ -13,17 +13,16 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.List;
 
 public final class NoPluginsCommand extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        saveDefaultConfig();
         getServer().getPluginManager().registerEvents(this, this);
         updateCheck(Bukkit.getConsoleSender());
     }
-
 
     public void updateCheck(CommandSender sender) {
         try {
@@ -69,12 +68,21 @@ public final class NoPluginsCommand extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onCommandUse(PlayerCommandPreprocessEvent event) {
-        List<String> commands = Arrays.asList("?", "pl", "about", "version", "ver", "plugins", "bukkit:?", "bukkit:pl", "bukkit:about", "bukkit:version", "bukkit:ver", "bukkit:plugins", "minecraft:pl", "minecraft:plugins", "minecraft:about", "minecraft:version", "minecraft:ver");
+        List<String> commands = getConfig().getStringList("blockCommand.commands");
+        //List<String> commands = Arrays.asList("?", "pl", "about", "version", "ver", "plugins", "bukkit:?", "bukkit:pl", "bukkit:about", "bukkit:version", "bukkit:ver", "bukkit:plugins", "minecraft:pl", "minecraft:plugins", "minecraft:about", "minecraft:version", "minecraft:ver");
         commands.forEach(all -> {
          String[] arrCommand = event.getMessage().toLowerCase().split(" ", 2);
-         if (arrCommand[0].equalsIgnoreCase("/" + all.toLowerCase()) && !event.getPlayer().isOp()) {
-             event.setCancelled(true);
+         //屏蔽指令逻辑
+         if (arrCommand[0].equalsIgnoreCase("/" + all.toLowerCase())) {
+             //处理配置文件中的 bypassOS 开关
+             event.setCancelled(!getConfig().getBoolean("blockCommand.bypassOP") || !event.getPlayer().isOp());
+             String msg = getConfig().getString("blockCommand.blkMsg");
+             if (!msg.isEmpty()){
+                 event.getPlayer().sendMessage(Color.translate(msg));
+             }
          }
+         
+         //TODO: rtp随机传送逻辑
         });
     }
 
