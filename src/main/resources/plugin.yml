@@ -1,7 +1,7 @@
 name: NoPluginsCommand
-version: 1.2
+version: 1.3
 main: net.noodles.pl.nopluginscommand.NoPluginsCommand
 authors: [BGHDDevelopmentLLC]
-description: Blocks /plugin, /about, /version, and more!
+description: Blocks /plugin, /about, /version, and add RTP!
 website: https://bghddevelopment.com
 api-version: 1.18

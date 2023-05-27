@@ -30,6 +30,12 @@ rtp:
   enable: true
   #随机传送范围，x，y共用最大值，+max-range 至 -max-range 范围之间
   max-range: 2000
+  #rtp传送要排除的不安全方块类型
+  unsafe-blocks:
+    - WATER
+    - LAVA
+    - AIR
+
 
 
 

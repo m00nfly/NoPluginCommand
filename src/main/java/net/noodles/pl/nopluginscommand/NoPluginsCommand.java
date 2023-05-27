@@ -69,9 +69,10 @@ public final class NoPluginsCommand extends JavaPlugin implements Listener {
     @EventHandler
     public void onCommandUse(PlayerCommandPreprocessEvent event) {
         List<String> commands = getConfig().getStringList("blockCommand.commands");
+        String[] arrCommand = event.getMessage().toLowerCase().split(" ", 2);
         //List<String> commands = Arrays.asList("?", "pl", "about", "version", "ver", "plugins", "bukkit:?", "bukkit:pl", "bukkit:about", "bukkit:version", "bukkit:ver", "bukkit:plugins", "minecraft:pl", "minecraft:plugins", "minecraft:about", "minecraft:version", "minecraft:ver");
+
         commands.forEach(all -> {
-         String[] arrCommand = event.getMessage().toLowerCase().split(" ", 2);
          //屏蔽指令逻辑
          if (arrCommand[0].equalsIgnoreCase("/" + all.toLowerCase())) {
              //处理配置文件中的 bypassOS 开关
@@ -81,9 +82,12 @@ public final class NoPluginsCommand extends JavaPlugin implements Listener {
                  event.getPlayer().sendMessage(Color.translate(msg));
              }
          }
-         
-         //TODO: rtp随机传送逻辑
         });
+
+        //rtp -> enable，处理rtp 指令
+        if (getConfig().getBoolean("rtp.enable") && arrCommand[0].equalsIgnoreCase("/rtp")) {
+            Teleport.rtp(event.getPlayer());
+        }
     }
 
 }
