@@ -71,7 +71,6 @@ public final class NoPluginsCommand extends JavaPlugin implements Listener {
         List<String> commands = getConfig().getStringList("blockCommand.commands");
         String[] arrCommand = event.getMessage().toLowerCase().split(" ", 2);
         //List<String> commands = Arrays.asList("?", "pl", "about", "version", "ver", "plugins", "bukkit:?", "bukkit:pl", "bukkit:about", "bukkit:version", "bukkit:ver", "bukkit:plugins", "minecraft:pl", "minecraft:plugins", "minecraft:about", "minecraft:version", "minecraft:ver");
-
         commands.forEach(all -> {
          //屏蔽指令逻辑
          if (arrCommand[0].equalsIgnoreCase("/" + all.toLowerCase())) {
@@ -85,8 +84,16 @@ public final class NoPluginsCommand extends JavaPlugin implements Listener {
         });
 
         //rtp -> enable，处理rtp 指令
-        if (getConfig().getBoolean("rtp.enable") && arrCommand[0].equalsIgnoreCase("/rtp")) {
+        if (arrCommand[0].equalsIgnoreCase("/rtp")) {
             Teleport.rtp(event.getPlayer());
+        }
+        //spawn 处理回城指令
+        if (arrCommand[0].equalsIgnoreCase("/spawn")) {
+            Teleport.spawn(event.getPlayer());
+        }
+        //home 处理返回重生点指令
+        if (arrCommand[0].equalsIgnoreCase("/home")) {
+            Teleport.home(event.getPlayer());
         }
     }
 

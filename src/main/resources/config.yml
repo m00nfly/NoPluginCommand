@@ -36,6 +36,11 @@ rtp:
     - LAVA
     - AIR
 
+spawn:
+  enable: true
+
+home:
+  enable: true
 
 
 

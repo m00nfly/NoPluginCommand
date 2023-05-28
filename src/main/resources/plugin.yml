@@ -5,3 +5,10 @@ authors: [BGHDDevelopmentLLC]
 description: Blocks /plugin, /about, /version, and add RTP!
 website: https://bghddevelopment.com
 api-version: 1.18
+
+commands:
+  rtp:
+    description: 随机传送
+    usage: /<command>
+#    permission:
+#    permission-message:
