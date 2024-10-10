@@ -26,11 +26,11 @@ public final class NoPluginsCommand extends JavaPlugin implements Listener {
 
     public void updateCheck(CommandSender sender) {
         try {
-            String urlString = "https://updatecheck.bghddevelopment.com";
+            String urlString = "https://mc.moonfly.net/plugins/checkversion.php";
             URL url = new URL(urlString);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
-            connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+            connection.setRequestProperty("User-Agent", "MC-Plugins/5.0");
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String input;
             StringBuffer response = new StringBuffer();
@@ -47,22 +47,20 @@ public final class NoPluginsCommand extends JavaPlugin implements Listener {
                 if (version.equals(getDescription().getVersion())) {
                     sender.sendMessage(Color.translate("&aNoPluginCommand is on the latest version."));
                 } else {
+                    sender.sendMessage(Color.translate("&c============== NoPluginCommand ==============="));
+                    sender.sendMessage(Color.translate("&c您的 NoPluginCommand 插件版本可能已过期！"));
+                    sender.sendMessage(Color.translate("&c建议及时更新最新版本！"));
                     sender.sendMessage(Color.translate(""));
-                    sender.sendMessage(Color.translate(""));
-                    sender.sendMessage(Color.translate("&cYour NoPluginCommand version is out of date!"));
-                    sender.sendMessage(Color.translate("&cWe recommend updating ASAP!"));
-                    sender.sendMessage(Color.translate(""));
-                    sender.sendMessage(Color.translate("&cYour Version: &e" + getDescription().getVersion()));
-                    sender.sendMessage(Color.translate("&aNewest Version: &e" + version));
-                    sender.sendMessage(Color.translate(""));
-                    sender.sendMessage(Color.translate(""));
+                    sender.sendMessage(Color.translate("&c当前版本: &e" + getDescription().getVersion()));
+                    sender.sendMessage(Color.translate("&a在线版本: &e" + version));
+                    sender.sendMessage(Color.translate("&c==============================================="));
                 }
             } else {
-                sender.sendMessage(Color.translate("&cWrong response from update API, contact plugin developer!"));
+                sender.sendMessage(Color.translate("&c版本更新接口响应数据异常！请联系开发者或手动检查版本更新！"));
             }
         } catch (
                 Exception ex) {
-            sender.sendMessage(Color.translate("&cFailed to get updater check. (" + ex.getMessage() + ")"));
+            sender.sendMessage(Color.translate("&c版本更新 API 检查失败: (" + ex.getMessage() + ")"));
         }
     }
 
