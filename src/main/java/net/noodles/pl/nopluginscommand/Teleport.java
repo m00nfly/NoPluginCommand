@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 import java.util.Random;
 
-public class Teleport {
+public final class Teleport {
     static FileConfiguration config = net.noodles.pl.nopluginscommand.NoPluginsCommand.getProvidingPlugin(NoPluginsCommand.class).getConfig();
     static Server server = net.noodles.pl.nopluginscommand.NoPluginsCommand.getProvidingPlugin(NoPluginsCommand.class).getServer();
 

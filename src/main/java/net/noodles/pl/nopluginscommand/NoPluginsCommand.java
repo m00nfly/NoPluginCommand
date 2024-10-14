@@ -33,7 +33,7 @@ public final class NoPluginsCommand extends JavaPlugin implements Listener {
             connection.setRequestProperty("User-Agent", "MC-Plugins/5.0");
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String input;
-            StringBuffer response = new StringBuffer();
+            StringBuilder response = new StringBuilder();
             while ((input = reader.readLine()) != null) {
                 response.append(input);
             }
@@ -68,31 +68,35 @@ public final class NoPluginsCommand extends JavaPlugin implements Listener {
     public void onCommandUse(PlayerCommandPreprocessEvent event) {
         List<String> commands = getConfig().getStringList("blockCommand.commands");
         String[] arrCommand = event.getMessage().toLowerCase().split(" ", 2);
-        //List<String> commands = Arrays.asList("?", "pl", "about", "version", "ver", "plugins", "bukkit:?", "bukkit:pl", "bukkit:about", "bukkit:version", "bukkit:ver", "bukkit:plugins", "minecraft:pl", "minecraft:plugins", "minecraft:about", "minecraft:version", "minecraft:ver");
         commands.forEach(all -> {
-         //屏蔽指令逻辑
-         if (arrCommand[0].equalsIgnoreCase("/" + all.toLowerCase())) {
-             //处理配置文件中的 bypassOS 开关
-             event.setCancelled(!getConfig().getBoolean("blockCommand.bypassOP") || !event.getPlayer().isOp());
-             String msg = getConfig().getString("blockCommand.blkMsg");
-             if (!msg.isEmpty()){
-                 event.getPlayer().sendMessage(Color.translate(msg));
-             }
-         }
+            //屏蔽指令逻辑
+            if (arrCommand[0].equalsIgnoreCase("/" + all.toLowerCase())) {
+                //处理配置文件中的 bypassOP 开关
+                if (!getConfig().getBoolean("blockCommand.bypassOP") || !event.getPlayer().isOp()) {
+                    event.setCancelled(true);
+                    String msg = getConfig().getString("blockCommand.blkMsg");
+                    if (!msg.isEmpty()) {
+                        event.getPlayer().sendMessage(Color.translate(msg));
+                    }
+                }
+            }
         });
 
-        //rtp -> enable，处理rtp 指令
-        if (arrCommand[0].equalsIgnoreCase("/rtp")) {
-            Teleport.rtp(event.getPlayer());
-        }
-        //spawn 处理回城指令
-        if (arrCommand[0].equalsIgnoreCase("/spawn")) {
-            Teleport.spawn(event.getPlayer());
-        }
-        //home 处理返回重生点指令
-        if (arrCommand[0].equalsIgnoreCase("/home")) {
-            Teleport.home(event.getPlayer());
+        switch (arrCommand[0]) {
+            case "/rtp":          //rtp -> enable，处理rtp 指令
+                Teleport.rtp(event.getPlayer());
+                event.setCancelled(true);
+                break;
+            case "/spawn":        //spawn 处理回城指令
+                Teleport.spawn(event.getPlayer());
+                event.setCancelled(true);
+                break;
+            case "/home":        //home 处理返回重生点指令
+                Teleport.home(event.getPlayer());
+                event.setCancelled(true);
+                break;
+            default:
+                break;
         }
     }
-
 }
